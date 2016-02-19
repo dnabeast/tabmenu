@@ -435,6 +435,41 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "src/Menu.php",
+			"settings":
+			{
+				"buffer_size": 2481,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<?php\n\nclass MenuTest extends PHPUnit_Framework_TestCase\n{\n\n\n	function test_it_removes_empty_lines()\n	{\n			$menu = new Typesaucer\\MenuTabber\\Menu;\n			$original = '\n\n					About us, /about-us, action\n						Contact Us\n\n					Packages, #, null\n				';\n			$expected = '					About us, /about-us, action\n						Contact Us\n					Packages, #, null';\n\n			$this->assertEquals(\n				$menu->removeEmptylines($original),\n				$expected\n			);\n	}\n\n	function test_it_splits_each_line_into_an_array_item()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n\n				About us, /about-us, action\n					Contact Us\n\n				Packages, #, null\n			';\n\n		$this->assertArrayHasKey(2, $menu->explodeString($original));\n\n	}\n\n	function test_it_separates_each_item_into_a_tab_count_and_the_details()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n				About us, /about-us, action\n					Contact Us\n				Packages, #, null\n			';\n\n		$this->assertContains(\n			[4,'Packages, #, null'],\n			$menu->countTabsArray($original)\n		);\n\n	}\n\n	function test_it_formats_the_link_item_into_a_html_anchor_tag()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = 'About Us, /about-us, action';\n		$expected = '<a href=\"/about-us\" class=\"action\">About Us</a>';\n\n		$this->assertEquals(\n			$menu->formatAnchorTag($original),\n			$expected\n			);\n	}\n\n	function test_it_formats_the_link_item_into_a_html_anchor_tag_with_no_href()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = 'About Us';\n		$expected = '<a href=\"/about-us\">About Us</a>';\n\n		$this->assertEquals(\n			$menu->formatAnchorTag($original),\n			$expected\n			);\n	}\n\n	function test_it_formats_the_link_item_into_a_html_anchor_tag_with_null()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = 'About Us, #, null';\n		$expected = '<a href=\"#\" class=\"null\">About Us</a>';\n\n		$this->assertEquals(\n			$menu->formatAnchorTag($original),\n			$expected\n			);\n	}\n\n	function test_it_iterates_through_list_of_links_and_formats_based_on_tab_count()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n			About Us, /about-us, action\n				Contact Us\n			Packages, #, null';\n\n		$expected = '<ul><li><a href=\"/about-us\" class=\"action\">About Us</a><ul><li><a href=\"/contact-us\">Contact Us</a></li></ul></li><li><a href=\"#\" class=\"null\">Packages</a></li></ul>';\n\n		$this->assertEquals(\n			$menu->formatList($original),\n			$expected\n		);\n\n	}\n\n	function test_it_closes_all_lists_that_it_opens()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n			About Us, /about-us, action\n				Contact Us\n					Thusly\n			Packages, #, null';\n\n		$expected = '<ul><li><a href=\"/about-us\" class=\"action\">About Us</a><ul><li><a href=\"/contact-us\">Contact Us</a><ul><li><a href=\"/thusly\">Thusly</a></li></ul></li></ul></li><li><a href=\"#\" class=\"null\">Packages</a></li></ul>';\n\n			$this->assertEquals(\n				$menu->formatList($original),\n				$expected\n				);\n	}\n\n	function test_it_closes_all_lists_that_it_opens_with_hanging_items()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n			About Us, /about-us, action\n				Contact Us\n					Thusly\n					Packages, #, null';\n\n		$expected = '<ul><li><a href=\"/about-us\" class=\"action\">About Us</a><ul><li><a href=\"/contact-us\">Contact Us</a><ul><li><a href=\"/thusly\">Thusly</a></li><li><a href=\"#\" class=\"null\">Packages</a></li></ul></li></ul></li></ul>';\n\n		$this->assertEquals(\n			$menu->formatList($original),\n			$expected\n			);\n	}\n\n\n    function it_throws_an_exception_if_list_close_tags_are_less_than_list_open_tags()\n    {\n    	$menu = new Typesaucer\\MenuTabber\\Menu;\n\n\n    	try {\n	    	$menu->countTags('<ul><ul></ul>');\n    	} catch (\\Exception $e) {\n    	    $this->assertEquals($e->getCode(), 100);\n    	    return;\n    	}\n\n    	$this->fail();\n    }\n\n\n //    function it_throws_an_exception_if_menu_goes_up_more_than_one_tab()\n //    {\n //    	$original = '\n //    		About Us, /about-us, action\n //    				Contact Us';\n\n //    	$this->shouldThrow('\\Exception')->duringFormatList($original);\n //    }\n\n}\n",
+			"file": "tests/MenuTest.php",
+			"file_size": 4053,
+			"file_write_time": 131003192370000000,
+			"settings":
+			{
+				"buffer_size": 3977,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "phpunit.xml",
+			"settings":
+			{
+				"buffer_size": 570,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/MenuTabberServiceProvider.php",
+			"settings":
+			{
+				"buffer_size": 804,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -444,9 +479,13 @@
 	"command_palette":
 	{
 		"height": 400.0,
-		"last_filter": "html",
+		"last_filter": "tabs",
 		"selected_items":
 		[
+			[
+				"tabs",
+				"Indentation: Convert to Tabs"
+			],
 			[
 				"html",
 				"Set Syntax: HTML"
@@ -800,7 +839,7 @@
 				"View: Toggle Minimap"
 			]
 		],
-		"width": 529.0
+		"width": 680.0
 	},
 	"console":
 	{
@@ -822,7 +861,9 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/dan/code/open-source/menutabber"
+		"/Users/dan/code/open-source/menutabber",
+		"/Users/dan/code/open-source/menutabber/src",
+		"/Users/dan/code/open-source/menutabber/tests"
 	],
 	"file_history":
 	[
@@ -972,6 +1013,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"    ",
+			"Menu",
 			"B7BCC2",
 			"2A3343",
 			" ",
@@ -1097,9 +1140,7 @@
 			"name,",
 			"name",
 			"publish_date",
-			"checked",
-			"keywords",
-			"duration"
+			"checked"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1148,8 +1189,408 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "src/Menu.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2481,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5,
+								5
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								}
+							],
+							"bh_regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "tests/MenuTest.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3977,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3696,
+								3696
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								}
+							],
+							"bh_regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4136.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "phpunit.xml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 570,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								500,
+								500
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								}
+							],
+							"bh_regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"syntax": "Packages/XML/XML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/MenuTabberServiceProvider.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 804,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								716,
+								716
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								}
+							],
+							"bh_regions":
+							[
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 297.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -1723,7 +2164,7 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "",
+		"last_filter": "ash",
 		"selected_items":
 		[
 			[
@@ -1798,7 +2239,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 248.0,
+	"side_bar_width": 148.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
