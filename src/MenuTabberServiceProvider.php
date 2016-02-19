@@ -32,7 +32,7 @@ class MenuTabberServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Typesaucer\MenuTabber\Menu', function()
+        $this->app->singleton('Typesaucer/MenuTabber/Menu', function()
         {
             return new Menu;
         });

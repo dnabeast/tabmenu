@@ -444,13 +444,10 @@
 			}
 		},
 		{
-			"contents": "<?php\n\nclass MenuTest extends PHPUnit_Framework_TestCase\n{\n\n\n	function test_it_removes_empty_lines()\n	{\n			$menu = new Typesaucer\\MenuTabber\\Menu;\n			$original = '\n\n					About us, /about-us, action\n						Contact Us\n\n					Packages, #, null\n				';\n			$expected = '					About us, /about-us, action\n						Contact Us\n					Packages, #, null';\n\n			$this->assertEquals(\n				$menu->removeEmptylines($original),\n				$expected\n			);\n	}\n\n	function test_it_splits_each_line_into_an_array_item()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n\n				About us, /about-us, action\n					Contact Us\n\n				Packages, #, null\n			';\n\n		$this->assertArrayHasKey(2, $menu->explodeString($original));\n\n	}\n\n	function test_it_separates_each_item_into_a_tab_count_and_the_details()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n				About us, /about-us, action\n					Contact Us\n				Packages, #, null\n			';\n\n		$this->assertContains(\n			[4,'Packages, #, null'],\n			$menu->countTabsArray($original)\n		);\n\n	}\n\n	function test_it_formats_the_link_item_into_a_html_anchor_tag()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = 'About Us, /about-us, action';\n		$expected = '<a href=\"/about-us\" class=\"action\">About Us</a>';\n\n		$this->assertEquals(\n			$menu->formatAnchorTag($original),\n			$expected\n			);\n	}\n\n	function test_it_formats_the_link_item_into_a_html_anchor_tag_with_no_href()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = 'About Us';\n		$expected = '<a href=\"/about-us\">About Us</a>';\n\n		$this->assertEquals(\n			$menu->formatAnchorTag($original),\n			$expected\n			);\n	}\n\n	function test_it_formats_the_link_item_into_a_html_anchor_tag_with_null()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = 'About Us, #, null';\n		$expected = '<a href=\"#\" class=\"null\">About Us</a>';\n\n		$this->assertEquals(\n			$menu->formatAnchorTag($original),\n			$expected\n			);\n	}\n\n	function test_it_iterates_through_list_of_links_and_formats_based_on_tab_count()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n			About Us, /about-us, action\n				Contact Us\n			Packages, #, null';\n\n		$expected = '<ul><li><a href=\"/about-us\" class=\"action\">About Us</a><ul><li><a href=\"/contact-us\">Contact Us</a></li></ul></li><li><a href=\"#\" class=\"null\">Packages</a></li></ul>';\n\n		$this->assertEquals(\n			$menu->formatList($original),\n			$expected\n		);\n\n	}\n\n	function test_it_closes_all_lists_that_it_opens()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n			About Us, /about-us, action\n				Contact Us\n					Thusly\n			Packages, #, null';\n\n		$expected = '<ul><li><a href=\"/about-us\" class=\"action\">About Us</a><ul><li><a href=\"/contact-us\">Contact Us</a><ul><li><a href=\"/thusly\">Thusly</a></li></ul></li></ul></li><li><a href=\"#\" class=\"null\">Packages</a></li></ul>';\n\n			$this->assertEquals(\n				$menu->formatList($original),\n				$expected\n				);\n	}\n\n	function test_it_closes_all_lists_that_it_opens_with_hanging_items()\n	{\n		$menu = new Typesaucer\\MenuTabber\\Menu;\n\n		$original = '\n			About Us, /about-us, action\n				Contact Us\n					Thusly\n					Packages, #, null';\n\n		$expected = '<ul><li><a href=\"/about-us\" class=\"action\">About Us</a><ul><li><a href=\"/contact-us\">Contact Us</a><ul><li><a href=\"/thusly\">Thusly</a></li><li><a href=\"#\" class=\"null\">Packages</a></li></ul></li></ul></li></ul>';\n\n		$this->assertEquals(\n			$menu->formatList($original),\n			$expected\n			);\n	}\n\n\n    function it_throws_an_exception_if_list_close_tags_are_less_than_list_open_tags()\n    {\n    	$menu = new Typesaucer\\MenuTabber\\Menu;\n\n\n    	try {\n	    	$menu->countTags('<ul><ul></ul>');\n    	} catch (\\Exception $e) {\n    	    $this->assertEquals($e->getCode(), 100);\n    	    return;\n    	}\n\n    	$this->fail();\n    }\n\n\n //    function it_throws_an_exception_if_menu_goes_up_more_than_one_tab()\n //    {\n //    	$original = '\n //    		About Us, /about-us, action\n //    				Contact Us';\n\n //    	$this->shouldThrow('\\Exception')->duringFormatList($original);\n //    }\n\n}\n",
 			"file": "tests/MenuTest.php",
-			"file_size": 4053,
-			"file_write_time": 131003192370000000,
 			"settings":
 			{
-				"buffer_size": 3977,
+				"buffer_size": 4010,
 				"line_ending": "Unix"
 			}
 		},
@@ -1189,7 +1186,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1216,6 +1213,14 @@
 							[
 								{
 									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
 									"selector": "text.html"
 								},
 								{
@@ -1288,7 +1293,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1297,15 +1302,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3977,
+						"buffer_size": 4010,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3696,
-								3696
+								3548,
+								3548
 							]
 						],
 						"settings":
@@ -1315,6 +1320,14 @@
 							[
 								{
 									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
 									"selector": "text.html"
 								},
 								{
@@ -1385,10 +1398,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4136.0,
+						"translation.y": 4259.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1404,8 +1417,8 @@
 						"selection":
 						[
 							[
-								500,
-								500
+								570,
+								570
 							]
 						],
 						"settings":
@@ -1415,6 +1428,14 @@
 							[
 								{
 									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
 									"selector": "text.html"
 								},
 								{
@@ -1488,7 +1509,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1504,8 +1525,8 @@
 						"selection":
 						[
 							[
-								716,
-								716
+								727,
+								727
 							]
 						],
 						"settings":
@@ -1515,6 +1536,14 @@
 							[
 								{
 									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
 									"selector": "text.html"
 								},
 								{
@@ -1585,10 +1614,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 297.0,
+						"translation.y": 254.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -2164,9 +2193,13 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "ash",
+		"last_filter": "ashton",
 		"selected_items":
 		[
+			[
+				"ashton",
+				"~/code/ashton/ashton.sublime-project"
+			],
 			[
 				"ash",
 				"~/code/ashton/ashton.sublime-project"
@@ -2186,10 +2219,6 @@
 			[
 				"spac",
 				"~/code/spacifica/spacifica.sublime-project"
-			],
-			[
-				"ashton",
-				"~/code/ashton/ashton.sublime-project"
 			],
 			[
 				"birm",
