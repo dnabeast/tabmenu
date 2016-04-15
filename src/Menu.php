@@ -11,6 +11,8 @@ class Menu
 	public function build($string){
 		if (Request::segment(1)=='admin') {
 			$prefix = Request::segment(1);
+		} else {
+			$prefix = null;
 		}
 		$result = $this->formatList($string, $prefix = null);
 		$this->countTags($result);
