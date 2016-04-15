@@ -2,11 +2,13 @@
 
 namespace Typesaucer\MenuTabber;
 
+use Illuminate\Support\Facades\Request;
+
 // use App\Exceptions\ListDoesntClose;
 
 class Menu
 {
-	public function build($string, $prefix=null){
+	public function build($string){
 		if (Request::segment(1)=='admin') {
 			$prefix = Request::segment(1);
 		}
