@@ -7,17 +7,20 @@ namespace Typesaucer\MenuTabber;
 class Menu
 {
 	public function build($string, $prefix=null){
-		$result = $this->formatList($string, $prefix);
+		if (Request::segment(1)=='admin') {
+			$prefix = Request::segment(1);
+		}
+		$result = $this->formatList($string, $prefix = null);
 		$this->countTags($result);
 		return $result;
 	}
 
-    public function removeEmptylines($string)
-    {
+	public function removeEmptylines($string)
+	{
 		$string = preg_replace('/\n^\t*$/m', '', $string);
 		$string = preg_replace('/^\n/', '', $string);
 		return $string;
-    }
+	}
 
 	public function explodeString($string){
 		$string = $this->removeEmptylines($string);
@@ -39,7 +42,7 @@ class Menu
 
 	public function formatAnchorTag($string, $prefix = null)
 	{
-	    $array = explode(',', $string);
+		$array = explode(',', $string);
 		$array = array_map(function($item){
 			return trim($item, ' ');
 		}, $array);
@@ -47,7 +50,7 @@ class Menu
 		$array = $this->createSlugLink($array, $prefix);
 		$class = $this->AddClassToLink($array);
 
-	    return '<a href="'.$array[1].'"'.$class.'>'.$array[0].'</a>';
+		return '<a href="'.$array[1].'"'.$class.'>'.$array[0].'</a>';
 	}
 
 	public function createSlugLink($linkArray, $prefix = null){
@@ -61,11 +64,11 @@ class Menu
 	}
 
 	public function addClassToLink($linkArray){
-		    if (isset($linkArray[2])){
-			    $class=' class="'.$linkArray[2].'"';
-		    } else {
-		    	$class = '';
-		    }
+			if (isset($linkArray[2])){
+				$class=' class="'.$linkArray[2].'"';
+			} else {
+				$class = '';
+			}
 		return $class;
 	}
 
@@ -108,16 +111,16 @@ class Menu
 
 	}
 
-    public function countTags($string)
-    {
-        $countOpen = substr_count($string, '<ul>');
-        $countClose = substr_count($string, '</ul>');
+	public function countTags($string)
+	{
+		$countOpen = substr_count($string, '<ul>');
+		$countClose = substr_count($string, '</ul>');
 
-        if ($countOpen!=$countClose) {
-        	throw new \Exception('Menu list didn\'t close properly');
-        }
+		if ($countOpen!=$countClose) {
+			throw new \Exception('Menu list didn\'t close properly');
+		}
 
-    }
+	}
 
 
 
