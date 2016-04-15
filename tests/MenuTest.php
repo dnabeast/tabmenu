@@ -151,19 +151,34 @@ class MenuTest extends PHPUnit_Framework_TestCase
 	}
 
 
+	/** @test */
+	function it_takes_a_prefix_and_adds_it_to_all_the_local_links()
+	{
+		$menu = new Typesaucer\MenuTabber\Menu;
+
+		$original = '
+			About Us, /about-us, action
+			Contact Us';
+		$prefix = 'admin';
+
+		$expected = '<ul><li><a href="/admin/about-us" class="action">About Us</a></li><li><a href="/admin/contact-us">Contact Us</a></li></ul>';
+
+		$this->assertEquals(
+			$menu->formatList($original, $prefix),
+			$expected
+			);
+	}
+
     // function it_throws_an_exception_if_list_close_tags_are_less_than_list_open_tags()
     // {
     // 	$menu = new Typesaucer\MenuTabber\Menu;
 
+    // 	$menu->countTags('<ul><ul></ul>');
 
-    // 	try {
-	   //  	$menu->countTags('<ul><ul></ul>');
-    // 	} catch (\Exception $e) {
-    // 	    $this->assertEquals($e->getCode(), 100);
-    // 	    return;
-    // 	}
+    // 	$this->assertEquals
+    // 		->see('Exception');
 
-    // 	$this->fail();
+
     // }
 
 

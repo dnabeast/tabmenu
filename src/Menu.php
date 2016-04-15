@@ -6,8 +6,8 @@ namespace Typesaucer\MenuTabber;
 
 class Menu
 {
-	public function build($string){
-		$result = $this->formatList($string);
+	public function build($string, $prefix=null){
+		$result = $this->formatList($string, $prefix);
 		$this->countTags($result);
 		return $result;
 	}
@@ -16,12 +16,10 @@ class Menu
     {
 		$string = preg_replace('/\n^\t*$/m', '', $string);
 		$string = preg_replace('/^\n/', '', $string);
-
 		return $string;
     }
 
 	public function explodeString($string){
-
 		$string = $this->removeEmptylines($string);
 		return explode(PHP_EOL, $string);
 	}
@@ -39,23 +37,25 @@ class Menu
 		return $array;
 	}
 
-	public function formatAnchorTag($string)
+	public function formatAnchorTag($string, $prefix = null)
 	{
 	    $array = explode(',', $string);
 		$array = array_map(function($item){
 			return trim($item, ' ');
 		}, $array);
 
-
-		$array = $this->createSlugLink($array);
+		$array = $this->createSlugLink($array, $prefix);
 		$class = $this->AddClassToLink($array);
 
 	    return '<a href="'.$array[1].'"'.$class.'>'.$array[0].'</a>';
 	}
 
-	public function createSlugLink($linkArray){
+	public function createSlugLink($linkArray, $prefix = null){
 		if (!isset($linkArray[1])){
 			$linkArray[1] = '/'.str_slug($linkArray[0]);
+		}
+		if (isset($prefix)){
+			$linkArray[1] = '/'.$prefix.$linkArray[1];
 		}
 		return $linkArray;
 	}
@@ -69,7 +69,7 @@ class Menu
 		return $class;
 	}
 
-	public function formatList($string){
+	public function formatList($string, $prefix = null){
 		$array = $this->countTabsArray($string);
 
 		$listHTML = '';
@@ -93,7 +93,7 @@ class Menu
 				$listHTML .= "</li>";
 			}
 
-			$listHTML .= "<li>".$this->formatAnchorTag($line[1]);
+			$listHTML .= "<li>".$this->formatAnchorTag($line[1], $prefix);
 
 			$counter = $line[0];
 		}
