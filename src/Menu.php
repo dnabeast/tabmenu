@@ -14,7 +14,7 @@ class Menu
 		} else {
 			$prefix = null;
 		}
-		$result = $this->formatList($string, $prefix = null);
+		$result = $this->formatList($string, $prefix);
 		$this->countTags($result);
 		return $result;
 	}
