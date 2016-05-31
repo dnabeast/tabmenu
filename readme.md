@@ -12,7 +12,7 @@ Installing
 Add the dependency to your project:
 
 ```bash
-composer require DNABeast/tabmenu
+composer require DNABeast/tabmenu:dev-master
 ```
 
 After updating composer, add the ServiceProvider to the providers array in config/app.php
