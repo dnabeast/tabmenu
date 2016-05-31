@@ -1,5 +1,5 @@
 {
-    "name": "DNABeast/tabmenu",
+    "name": "dnabeast/tabmenu",
     "description": "HTML menu creator for Blade",
     "license": "MIT",
     "keywords": ["laravel", "blade", "menu"],
