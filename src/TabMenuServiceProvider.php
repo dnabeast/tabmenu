@@ -2,7 +2,7 @@
 
 namespace DNABeast\TabMenu;
 
-use DNABeast\TabMenu\Menu;
+use DNABeast\TabMenu\TabMenu;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,7 +34,7 @@ class TabMenuServiceProvider extends ServiceProvider
     {
         $this->app->singleton('DNABeast/TabMenu/TabMenu', function()
         {
-            return new Menu;
+            return new TabMenu;
         });
     }
 }
