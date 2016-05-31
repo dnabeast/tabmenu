@@ -1,12 +1,28 @@
 <?php
 
-class MenuTest extends PHPUnit_Framework_TestCase
+class TabMenuTest extends PHPUnit_Framework_TestCase
 {
 
 
 	function test_it_removes_empty_lines()
 	{
-			$menu = new Typesaucer\MenuTabber\Menu;
+			$menu = new Typesaucer\TabMenu\TabMenu;
+			$original = '
+
+					About us, /about-us, action
+						Contact Us
+
+					Packages, #, null
+				';
+			$expected = '					About us, /about-us, action
+						Contact Us
+					Packages, #, null';
+
+			$this->assertEquals(
+				$menu->removeEmptylines($original),
+				$expected
+			);
+
 			$original = '
 
 					About us, /about-us, action
@@ -26,7 +42,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
 	function test_it_splits_each_line_into_an_array_item()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = '
 
@@ -42,7 +58,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
 	function test_it_separates_each_item_into_a_tab_count_and_the_details()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = '
 				About us, /about-us, action
@@ -59,7 +75,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
 	function test_it_formats_the_link_item_into_a_html_anchor_tag()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = 'About Us, /about-us, action';
 		$expected = '<a href="/about-us" class="action">About Us</a>';
@@ -72,7 +88,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
 	function test_it_formats_the_link_item_into_a_html_anchor_tag_with_no_href()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = 'About Us';
 		$expected = '<a href="/about-us">About Us</a>';
@@ -85,7 +101,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
 	function test_it_formats_the_link_item_into_a_html_anchor_tag_with_null()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = 'About Us, #, null';
 		$expected = '<a href="#" class="null">About Us</a>';
@@ -98,7 +114,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
 	function test_it_iterates_through_list_of_links_and_formats_based_on_tab_count()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = '
 			About Us, /about-us, action
@@ -116,7 +132,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
 	function test_it_closes_all_lists_that_it_opens()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = '
 			About Us, /about-us, action
@@ -134,7 +150,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
 	function test_it_closes_all_lists_that_it_opens_with_hanging_items()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = '
 			About Us, /about-us, action
@@ -154,7 +170,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 	/** @test */
 	function it_takes_a_prefix_and_adds_it_to_all_the_local_links()
 	{
-		$menu = new Typesaucer\MenuTabber\Menu;
+		$menu = new Typesaucer\TabMenu\TabMenu;
 
 		$original = '
 			About Us, /about-us, action
@@ -171,7 +187,7 @@ class MenuTest extends PHPUnit_Framework_TestCase
 
     // function it_throws_an_exception_if_list_close_tags_are_less_than_list_open_tags()
     // {
-    // 	$menu = new Typesaucer\MenuTabber\Menu;
+    // 	$menu = new Typesaucer\TabMenu\TabMenu;
 
     // 	$menu->countTags('<ul><ul></ul>');
 

@@ -1,22 +1,18 @@
 <?php
 
-namespace Typesaucer\MenuTabber;
+namespace Typesaucer\TabMenu;
 
 use Illuminate\Support\Facades\Request;
 
 // use App\Exceptions\ListDoesntClose;
 
-class Menu
+class TabMenu
 {
 	public function build($string){
-		if (Request::segment(1)=='admin') {
-			$prefix = Request::segment(1);
-		} else {
-			$prefix = null;
-		}
-		$result = $this->formatList($string, $prefix);
-		$this->countTags($result);
-		return $result;
+		$prefix = Request::segment(1)=='admin'?Request::segment(1):null;
+		$HTMLFormattedList = $this->formatList($string, $prefix);
+		$this->countTags($HTMLFormattedList);
+		return $HTMLFormattedList;
 	}
 
 	public function removeEmptylines($string)
@@ -33,15 +29,15 @@ class Menu
 
 	public function countTabsArray($string)
 	{
-		$array = $this->explodeString($string);
+		$linesOfMenu = $this->explodeString($string);
 
-		$array = array_map(function($item){
+		$linesOfMenu = array_map(function($item){
 			$tabCount = substr_count($item, '	');
 			$linkData = str_replace('	', '', $item);
 			return [$tabCount, $linkData];
-		}, $array);
+		}, $linesOfMenu);
 
-		return $array;
+		return $linesOfMenu;
 	}
 
 	public function formatAnchorTag($string, $prefix = null)
@@ -68,12 +64,7 @@ class Menu
 	}
 
 	public function addClassToLink($linkArray){
-			if (isset($linkArray[2])){
-				$class=' class="'.$linkArray[2].'"';
-			} else {
-				$class = '';
-			}
-		return $class;
+		return (isset($linkArray[2]))?$class=' class="'.$linkArray[2].'"':'';
 	}
 
 	public function formatList($string, $prefix = null){

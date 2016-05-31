@@ -1,12 +1,12 @@
 <?php
 
-namespace Typesaucer\MenuTabber;
+namespace Typesaucer\TabMenu;
 
-use Typesaucer\MenuTabber\Menu;
+use Typesaucer\TabMenu\Menu;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class MenuTabberServiceProvider extends ServiceProvider
+class TabMenuServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -17,7 +17,7 @@ class MenuTabberServiceProvider extends ServiceProvider
     {
 
         Blade::directive('menu', function(){
-            return "<?= app('Typesaucer/MenuTabber/Menu')->build('";
+            return "<?= app('Typesaucer/TabMenu/TabMenu')->build('";
         });
         Blade::directive('endmenu', function(){
             return "');?>";
@@ -32,7 +32,7 @@ class MenuTabberServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Typesaucer/MenuTabber/Menu', function()
+        $this->app->singleton('Typesaucer/TabMenu/TabMenu', function()
         {
             return new Menu;
         });

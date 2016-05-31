@@ -1,6 +1,6 @@
 {
-    "name": "typesaucer/menutabber",
-    "description": "Menu creator using tabs for Blade",
+    "name": "typesaucer/tabmenu",
+    "description": "HTML menu creator for Blade",
     "license": "MIT",
     "keywords": ["laravel", "blade", "menu"],
     "authors": [
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Typesaucer\\MenuTabber\\": "src/"
+            "Typesaucer\\TabMenu\\": "src/"
         }
     },
     "require-dev": {
