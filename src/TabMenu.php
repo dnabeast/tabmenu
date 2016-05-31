@@ -1,6 +1,6 @@
 <?php
 
-namespace Typesaucer\TabMenu;
+namespace DNABeast\TabMenu;
 
 use Illuminate\Support\Facades\Request;
 

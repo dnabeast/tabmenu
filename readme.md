@@ -12,7 +12,7 @@ Installing
 Add the dependency to your project:
 
 ```bash
-composer require typesaucer/tabmenu
+composer require DNABeast/tabmenu
 ```
 
 After updating composer, add the ServiceProvider to the providers array in config/app.php
@@ -20,7 +20,7 @@ After updating composer, add the ServiceProvider to the providers array in confi
 ### Laravel 5.2:
 
 ```
-Typesaucer\TabMenu\TabMenuServiceProvider::class,
+DNABeast\TabMenu\TabMenuServiceProvider::class,
 ```
 
 Usage
@@ -29,9 +29,11 @@ Usage
 In your blade file enter the custom directive start and end points with your menu a text list
 
 ```
+@menu
 [tab][tab]Menu 1
 [tab][tab]Menu 2
 [tab][tab]Menu 3
+@endmenu
 ```
 
 outputs
@@ -49,10 +51,12 @@ outputs
 Add a tab and the menu item will be come a submenu.
 
 ```
+@menu
 [tab][tab]Menu 1
 [tab][tab][tab]Menu 1a
 [tab][tab][tab][tab]Menu 1ax
 [tab][tab]Menu 2
+@endmenu
 ```
 creates
 ```
@@ -71,8 +75,10 @@ creates
 Put a comma and set the url when it's different to the menu name
 
 ```
+@menu
 Menu, /menu-one-location
 Menu 2
+@endmenu
 ```
 becomes
 ```
@@ -87,7 +93,9 @@ becomes
 If your menu item requires a class name just add it after a second comma
 
 ```
+@menu
 Menu Item, /menu-item, action
+@endmenu
 ```
 becomes
 ```

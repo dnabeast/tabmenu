@@ -1,8 +1,8 @@
 <?php
 
-namespace Typesaucer\TabMenu;
+namespace DNABeast\TabMenu;
 
-use Typesaucer\TabMenu\Menu;
+use DNABeast\TabMenu\Menu;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +17,7 @@ class TabMenuServiceProvider extends ServiceProvider
     {
 
         Blade::directive('menu', function(){
-            return "<?= app('Typesaucer/TabMenu/TabMenu')->build('";
+            return "<?= app('DNABeast/TabMenu/TabMenu')->build('";
         });
         Blade::directive('endmenu', function(){
             return "');?>";
@@ -32,7 +32,7 @@ class TabMenuServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Typesaucer/TabMenu/TabMenu', function()
+        $this->app->singleton('DNABeast/TabMenu/TabMenu', function()
         {
             return new Menu;
         });

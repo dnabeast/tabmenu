@@ -1,5 +1,5 @@
 {
-    "name": "typesaucer/tabmenu",
+    "name": "DNABeast/tabmenu",
     "description": "HTML menu creator for Blade",
     "license": "MIT",
     "keywords": ["laravel", "blade", "menu"],
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Typesaucer\\TabMenu\\": "src/"
+            "DNABeast\\TabMenu\\": "src/"
         }
     },
     "require-dev": {
