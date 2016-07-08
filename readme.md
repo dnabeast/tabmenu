@@ -23,6 +23,11 @@ After updating composer, add the ServiceProvider to the providers array in confi
 DNABeast\TabMenu\TabMenuServiceProvider::class,
 ```
 
+You may need to clear the view cache
+```
+php artisan view:clear
+```
+
 Usage
 =====
 

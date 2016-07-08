@@ -9,7 +9,6 @@
             "email": "dan@civicnet.com.au"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "illuminate/support": "^5.2"
     },
