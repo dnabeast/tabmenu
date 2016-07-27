@@ -10,7 +10,7 @@ class TabMenu
 {
 	public function build($string){
 		$prefix = Request::segment(1)=='admin'?Request::segment(1):null;
-		$HTMLFormattedList = $this->formatList($string, $prefix);
+		$HTMLFormattedList = $this->formatList($string, $prefix, config('tabmenu.nowrap'));
 		$this->countTags($HTMLFormattedList);
 		return $HTMLFormattedList;
 	}
@@ -67,7 +67,7 @@ class TabMenu
 		return (isset($linkArray[2]))?$class=' class="'.$linkArray[2].'"':'';
 	}
 
-	public function formatList($string, $prefix = null){
+	public function formatList($string, $prefix = null, $nowrap=null){
 		$array = $this->countTabsArray($string);
 
 		$listHTML = '';
@@ -101,6 +101,11 @@ class TabMenu
 		}
 
 		$listHTML .= "</li></ul>";
+
+		if ($nowrap){
+			$listHTML = preg_replace('/^<ul>/', '', $listHTML);
+			$listHTML = preg_replace('/<\/ul>$/', '', $listHTML);
+		}
 
 		return $listHTML;
 

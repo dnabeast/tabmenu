@@ -185,6 +185,25 @@ class TabMenuTest extends PHPUnit_Framework_TestCase
 			);
 	}
 
+
+	/** @test */
+	function it_leaves_the_outside_list_tags_off_for_manual_use()
+	{
+		$menu = new DNABeast\TabMenu\TabMenu;
+
+		$original = '
+			About Us, /about-us, action
+			Contact Us';
+		$prefix = 'admin';
+
+		$expected = '<li><a href="/admin/about-us" class="action">About Us</a></li><li><a href="/admin/contact-us">Contact Us</a></li>';
+
+		$this->assertEquals(
+			$menu->formatList($original, $prefix, true),
+			$expected
+			);
+	}
+
     // function it_throws_an_exception_if_list_close_tags_are_less_than_list_open_tags()
     // {
     // 	$menu = new DNABeast\TabMenu\TabMenu;

@@ -108,3 +108,25 @@ becomes
 	<li><a href="/menu-item" class="action">Menu Item</a></li>
 </ul>
 ```
+
+
+### unwrap the primary ul tag
+
+If you need to put dynamic list items in, it's useful to be able to remove the wrapping <ul> tag
+
+Publish the config file
+```
+php artisan vendor:publish
+```
+and change the nowrap flag to true.
+
+
+```
+@menu
+Menu Item, /menu-item, action
+@endmenu
+```
+becomes
+```
+	<li><a href="/menu-item" class="action">Menu Item</a></li>
+```
