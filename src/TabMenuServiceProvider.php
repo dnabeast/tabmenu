@@ -20,7 +20,9 @@ class TabMenuServiceProvider extends ServiceProvider
             __DIR__.'/config/tabmenu.php' => config_path('tabmenu.php'),
         ]);
 
-        Blade::directive('menu', function(){
+        Blade::directive('menu', function($expression=null){
+            dd($expression);
+
             return "<?= app('DNABeast/TabMenu/TabMenu')->build('";
         });
         Blade::directive('endmenu', function(){
