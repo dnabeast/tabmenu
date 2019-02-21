@@ -1,11 +1,17 @@
 <?php
+namespace DNABeast\TabMenu\Test;
 
-class TabMenuTest extends PHPUnit_Framework_TestCase
+use DNABeast\TabMenu\TabMenu;
+use Illuminate\Support\Facades\Config;
+use Orchestra\Testbench\TestCase;
+
+class TabMenuTest extends TestCase
 {
 
 	public function setUp()
 	{
-		$this->menu = new DNABeast\TabMenu\TabMenu;
+		$this->menu = new TabMenu;
+		parent::setUp();
 	}
 
 	function test_it_removes_empty_lines()
@@ -56,6 +62,44 @@ class TabMenuTest extends PHPUnit_Framework_TestCase
 
 	}
 
+
+	/** @test */
+	function it_replaces_multiple_spaces_with_tabs(){
+		Config::set('tabmenu.indent', "    ");
+
+		$expected = '
+				About us, /about-us, action
+					Contact Us
+				Packages, #, null
+			';
+
+		$original = '
+                About us, /about-us, action
+                    Contact Us
+                Packages, #, null
+            ';
+
+
+		$this->assertContains(
+			$expected,
+			$this->menu->indentToTabs($original)
+		);
+
+		Config::set('tabmenu.indent', "  ");
+
+		$original = '
+        About us, /about-us, action
+          Contact Us
+        Packages, #, null
+      ';
+
+		$this->assertContains(
+			$expected,
+			$this->menu->indentToTabs($original)
+		);
+
+	}
+
 	function test_it_separates_each_item_into_a_tab_count_and_the_details()
 	{
 		$original = '
@@ -81,6 +125,7 @@ class TabMenuTest extends PHPUnit_Framework_TestCase
 			$expected
 			);
 	}
+
 
 	function test_it_formats_the_link_item_into_a_html_anchor_tag_with_no_href()
 	{
@@ -186,26 +231,27 @@ class TabMenuTest extends PHPUnit_Framework_TestCase
 			);
 	}
 
-    // function it_throws_an_exception_if_list_close_tags_are_less_than_list_open_tags()
-    // {
-    // 	$this->menu = new DNABeast\TabMenu\TabMenu;
+	/** @test */
+	function it_throws_an_exception_if_list_close_tags_are_less_than_list_open_tags()
+	{
 
-    // 	$this->menu->countTags('<ul><ul></ul>');
+		$this->expectException(\Exception::class);
+		$this->menu->countTags('<ul><ul></ul>');
 
-    // 	$this->assertEquals
-    // 		->see('Exception');
-
-
-    // }
+	}
 
 
- //    function it_throws_an_exception_if_menu_goes_up_more_than_one_tab()
- //    {
- //    	$original = '
- //    		About Us, /about-us, action
- //    				Contact Us';
+	/** @test */
+	function it_throws_an_exception_if_menu_goes_up_more_than_one_tab()
+	{
 
- //    	$this->shouldThrow('\Exception')->duringFormatList($original);
- //    }
+		$this->expectException(\Exception::class);
+
+		$original = '
+			About Us, /about-us, action
+					Contact Us';
+
+		$this->menu->formatList($original, null , true);
+	}
 
 }

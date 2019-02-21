@@ -1,7 +1,7 @@
 HTML menu creation for Laravel Blade
 ====================================
 
-This allows you to define your HTML menu system using easy to read syntax in blade file.
+This allows you to define your HTML menu system using easy to read syntax in a blade file.
 
 It allows the menu urls to change if it's called from an admin directory. ie.
 It currently only supports tabs (not spaces).
@@ -112,7 +112,7 @@ becomes
 
 ### unwrap the primary ul tag
 
-If you need to put dynamic list items in, it's useful to be able to remove the wrapping <ul> tag
+If you need to put dynamic list items in, it's useful to be able to remove the wrapping <ul\> tag
 
 Publish the config file
 ```
@@ -130,3 +130,10 @@ becomes
 ```
 	<li><a href="/menu-item" class="action">Menu Item</a></li>
 ```
+
+### change the tabs to spaces
+
+I get it, you prefer pragmatism over semantics. You can change the tab to 2 space or 4 spaces if you like.
+
+Type in whatever you indentation is.
+'indent' => '----'

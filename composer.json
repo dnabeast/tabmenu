@@ -9,15 +9,19 @@
             "email": "dan@civicnet.com.au"
         }
     ],
-    "require": {
-        "illuminate/support": "^5.2"
-    },
+    "require": {},
     "autoload": {
         "psr-4": {
             "DNABeast\\TabMenu\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "DNABeast\\TabMenu\\Tests\\": "tests"
+        }
+    },
     "require-dev": {
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^7.5",
+        "orchestra/testbench": "~3.2"
     }
 }

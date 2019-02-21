@@ -15,6 +15,11 @@ class TabMenu
 		return $HTMLFormattedList;
 	}
 
+	public function indentToTabs($string)
+	{
+		return str_replace(config('tabmenu.indent')??"	", "	", $string);
+	}
+
 	public function removeEmptylines($string)
 	{
 		$string = preg_replace('/\n^\t*$/m', '', $string);
@@ -43,6 +48,7 @@ class TabMenu
 	public function formatAnchorTag($string, $prefix = null)
 	{
 		$array = explode(',', $string);
+
 		$array = array_map(function($item){
 			return trim($item, ' ');
 		}, $array);
@@ -52,6 +58,7 @@ class TabMenu
 
 		return '<a href="'.$array[1].'"'.$class.'>'.$array[0].'</a>';
 	}
+
 
 	public function createSlugLink($linkArray, $prefix = null){
 		if (!isset($linkArray[1])){
