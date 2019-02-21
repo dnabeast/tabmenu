@@ -133,7 +133,7 @@ becomes
 
 ### change the tabs to spaces
 
-I get it, you prefer pragmatism over semantics. You can change the tab to 2 space or 4 spaces if you like.
+I get it. You prefer pragmatism over semantics. You can change the tab to 2 spaces or 4 spaces if you like.
 
-Type in whatever you indentation is.
+Type in whatever your preferred indentation is.
 'indent' => '----'
