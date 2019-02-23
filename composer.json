@@ -23,5 +23,13 @@
     "require-dev": {
         "phpunit/phpunit": "^7.5",
         "orchestra/testbench": "~3.2"
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DNABeast\\TabMenu\\TabMenuServiceProvider"
+            ]
+        }
     }
 }

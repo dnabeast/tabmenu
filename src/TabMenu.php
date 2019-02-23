@@ -4,48 +4,47 @@ namespace DNABeast\TabMenu;
 
 use Illuminate\Support\Facades\Request;
 
-// use App\Exceptions\ListDoesntClose;
-
 class TabMenu
 {
 	public function build($string){
-		$prefix = Request::segment(1)=='admin'?Request::segment(1):null;
-		$HTMLFormattedList = $this->formatList($string, $prefix, config('tabmenu.nowrap'));
+		$HTMLFormattedList = $this->formatList($string, config('tabmenu.nowrap'));
 		$this->countTags($HTMLFormattedList);
 		return $HTMLFormattedList;
 	}
 
 	public function indentToTabs($string)
 	{
-		return str_replace(config('tabmenu.indent')??"	", "	", $string);
+		return str_replace(config('tabmenu.indent')??"\t", "\t", $string);
 	}
 
-	public function removeEmptylines($string)
+	public function removeEmptylines($lines)
 	{
-		$string = preg_replace('/\n^\t*$/m', '', $string);
-		$string = preg_replace('/^\n/', '', $string);
-		return $string;
+		$lines = array_filter($lines, function($line) {
+			return !ctype_space($line) && $line != '';
+		});
+		return array_values($lines);
 	}
 
-	public function explodeString($string){
-		$string = $this->removeEmptylines($string);
-		return explode(PHP_EOL, $string);
+	public function lines($string){
+		$lines = explode(PHP_EOL, $string);
+		$lines = $this->removeEmptyLines($lines);
+		return $lines;
 	}
 
 	public function countTabsArray($string)
 	{
-		$linesOfMenu = $this->explodeString($string);
+		$linesOfMenu = $this->lines($string);
 
 		$linesOfMenu = array_map(function($item){
-			$tabCount = substr_count($item, '	');
-			$linkData = str_replace('	', '', $item);
+			$tabCount = substr_count($item, "\t");
+			$linkData = str_replace("\t", '', $item);
 			return [$tabCount, $linkData];
 		}, $linesOfMenu);
 
 		return $linesOfMenu;
 	}
 
-	public function formatAnchorTag($string, $prefix = null)
+	public function formatAnchorTag($string)
 	{
 		$array = explode(',', $string);
 
@@ -53,14 +52,16 @@ class TabMenu
 			return trim($item, ' ');
 		}, $array);
 
-		$array = $this->createSlugLink($array, $prefix);
+		$array = $this->createSlugLink($array);
 		$class = $this->AddClassToLink($array);
 
 		return '<a href="'.$array[1].'"'.$class.'>'.$array[0].'</a>';
 	}
 
 
-	public function createSlugLink($linkArray, $prefix = null){
+	public function createSlugLink($linkArray){
+		$prefix = $this->checkForPrefix();
+
 		if (!isset($linkArray[1])){
 			$linkArray[1] = '/'.str_slug($linkArray[0]);
 		}
@@ -74,7 +75,7 @@ class TabMenu
 		return (isset($linkArray[2]))?$class=' class="'.$linkArray[2].'"':'';
 	}
 
-	public function formatList($string, $prefix = null, $nowrap=null){
+	public function formatList($string, $nowrap=null){
 		$array = $this->countTabsArray($string);
 
 		$listHTML = '';
@@ -98,7 +99,7 @@ class TabMenu
 				$listHTML .= "</li>";
 			}
 
-			$listHTML .= "<li>".$this->formatAnchorTag($line[1], $prefix);
+			$listHTML .= "<li>".$this->formatAnchorTag($line[1]);
 
 			$counter = $line[0];
 		}
@@ -110,8 +111,8 @@ class TabMenu
 		$listHTML .= "</li></ul>";
 
 		if ($nowrap){
-			$listHTML = preg_replace('/^<ul>/', '', $listHTML);
-			$listHTML = preg_replace('/<\/ul>$/', '', $listHTML);
+			$listHTML = substr($listHTML, 4);
+			$listHTML = substr($listHTML, 0, -5);
 		}
 
 		return $listHTML;
@@ -130,6 +131,10 @@ class TabMenu
 	}
 
 
-
+	public function checkForPrefix()
+	{
+		$prefix = config('tabmenu.prefix')??'admin';
+		return Request::segment(1)==$prefix?Request::segment(1):null;
+	}
 
 }

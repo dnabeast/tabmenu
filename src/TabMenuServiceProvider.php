@@ -21,8 +21,6 @@ class TabMenuServiceProvider extends ServiceProvider
         ]);
 
         Blade::directive('menu', function($expression=null){
-            dd($expression);
-
             return "<?= app('DNABeast/TabMenu/TabMenu')->build('";
         });
         Blade::directive('endmenu', function(){

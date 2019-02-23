@@ -14,39 +14,47 @@ class TabMenuTest extends TestCase
 		parent::setUp();
 	}
 
+	/** @test */
+	function it_should_build_a_html_list(){
+		$original = '
+
+				About us, /about-us, action
+					Contact Us
+
+				Packages, #, null
+			';
+
+		$expected = '<ul><li><a href="/about-us" class="action">About us</a><ul><li><a href="/contact-us">Contact Us</a></li></ul></li><li><a href="#" class="null">Packages</a></li></ul>';
+
+
+		$this->assertEquals(
+			$this->menu->build($original),
+			$expected
+		);
+	}
+
 	function test_it_removes_empty_lines()
 	{
-			$original = '
+			$original = [
+'',
+'					About us, /about-us, action',
+'						Contact Us',
+'',
+'					Packages, #, null',
+'				'
+];
 
-					About us, /about-us, action
-						Contact Us
-
-					Packages, #, null
-				';
-			$expected = '					About us, /about-us, action
-						Contact Us
-					Packages, #, null';
-
-			$this->assertEquals(
-				$this->menu->removeEmptylines($original),
-				$expected
-			);
-
-			$original = '
-
-					About us, /about-us, action
-						Contact Us
-
-					Packages, #, null
-				';
-			$expected = '					About us, /about-us, action
-						Contact Us
-					Packages, #, null';
+			$expected = [
+'					About us, /about-us, action',
+'						Contact Us',
+'					Packages, #, null'
+];
 
 			$this->assertEquals(
 				$this->menu->removeEmptylines($original),
 				$expected
 			);
+
 	}
 
 	function test_it_splits_each_line_into_an_array_item()
@@ -58,7 +66,7 @@ class TabMenuTest extends TestCase
 
 				Packages, #, null
 			';
-		$this->assertArrayHasKey(2, $this->menu->explodeString($original));
+		$this->assertArrayHasKey(2, $this->menu->lines($original));
 
 	}
 
@@ -201,6 +209,8 @@ class TabMenuTest extends TestCase
 	/** @test */
 	function it_takes_a_prefix_and_adds_it_to_all_the_local_links()
 	{
+		$this->get('admin');
+
 		$original = '
 			About Us, /about-us, action
 			Contact Us';
@@ -209,24 +219,60 @@ class TabMenuTest extends TestCase
 		$expected = '<ul><li><a href="/admin/about-us" class="action">About Us</a></li><li><a href="/admin/contact-us">Contact Us</a></li></ul>';
 
 		$this->assertEquals(
-			$this->menu->formatList($original, $prefix),
+			$this->menu->formatList($original),
 			$expected
 			);
 	}
 
 
 	/** @test */
+	function it_takes_a_prefix_from_the_config_and_adds_it_to_all_the_local_links()
+	{
+		$this->assertEquals(
+			$this->menu->checkForPrefix(),
+			null
+			);
+
+		Config::set('tabmenu.prefix', "dashboard");
+
+		$this->assertEquals(
+			$this->menu->checkForPrefix(),
+			null
+			);
+
+		$this->get('dashboard');
+
+		$this->assertEquals(
+			$this->menu->checkForPrefix(),
+			'dashboard'
+			);
+	}
+
+	/** @test */
+	function the_prefix_defaults_to_admin(){
+
+		$this->get('admin');
+
+		$this->assertEquals(
+			$this->menu->checkForPrefix(),
+			'admin'
+			);
+	}
+
+	/** @test */
 	function it_leaves_the_outside_list_tags_off_for_manual_use()
 	{
+
+		$this->get('admin');
+
 		$original = '
 			About Us, /about-us, action
 			Contact Us';
-		$prefix = 'admin';
 
 		$expected = '<li><a href="/admin/about-us" class="action">About Us</a></li><li><a href="/admin/contact-us">Contact Us</a></li>';
 
 		$this->assertEquals(
-			$this->menu->formatList($original, $prefix, true),
+			$this->menu->formatList($original, true),
 			$expected
 			);
 	}

@@ -3,8 +3,7 @@ HTML menu creation for Laravel Blade
 
 This allows you to define your HTML menu system using easy to read syntax in a blade file.
 
-It allows the menu urls to change if it's called from an admin directory. ie.
-It currently only supports tabs (not spaces).
+It allows the menu urls to change if it's called from an admin directory.
 
 Installing
 ==========
@@ -12,10 +11,10 @@ Installing
 Add the dependency to your project:
 
 ```bash
-composer require DNABeast/tabmenu:dev-master
+composer require DNABeast/tabmenu
 ```
 
-After updating composer, add the ServiceProvider to the providers array in config/app.php
+The ServiceProvider in automatically discovered.
 
 ### Laravel 5.2:
 
