@@ -14,10 +14,19 @@ Add the dependency to your project:
 composer require DNABeast/tabmenu
 ```
 
-The ServiceProvider in automatically discovered.
+##Publish the config file
+
+```
+php artisan vendor:publish
+```
+
+### Laravel 5.5:
+
+The ServiceProvider is automatically discovered.
 
 ### Laravel 5.2:
 
+Add to your app.php config.
 ```
 DNABeast\TabMenu\TabMenuServiceProvider::class,
 ```
@@ -30,7 +39,8 @@ php artisan view:clear
 Usage
 =====
 
-In your blade file enter the custom directive start and end points with your menu a text list
+In your blade file enter the custom @menu directive, and the @endmenu directive.
+Enter your menu as text list. You can indent if you wish.
 
 ```
 @menu
@@ -50,9 +60,9 @@ outputs
 </ul>
 ```
 
-### Submenus
+### Sub-menus
 
-Add a tab and the menu item will be come a submenu.
+Add a tab and the menu item will become a sub-menu.
 
 ```
 @menu
@@ -74,7 +84,7 @@ creates
 </ul>
 ```
 
-### set URLs
+### Set URLs
 
 Put a comma and set the url when it's different to the menu name
 
@@ -109,9 +119,9 @@ becomes
 ```
 
 
-### unwrap the primary ul tag
+### Unwrap the primary ul tag
 
-If you need to put dynamic list items in, it's useful to be able to remove the wrapping <ul\> tag
+If you need to add manual menu items it's useful to be able to remove the wrapping <ul\> tag.
 
 Publish the config file
 ```
@@ -130,9 +140,18 @@ becomes
 	<li><a href="/menu-item" class="action">Menu Item</a></li>
 ```
 
-### change the tabs to spaces
+### Change the tabs to spaces
 
 I get it. You prefer pragmatism over semantics. You can change the tab to 2 spaces or 4 spaces if you like.
 
-Type in whatever your preferred indentation is.
+In the published config file type whatever your preferred indentation is.
+```
 'indent' => '----'
+```
+
+### Alter the prefix for admin links
+
+In the published config file enter the name of your admin folder.
+```
+'prefix' => 'dashboard'
+```
