@@ -40,7 +40,7 @@ Usage
 =====
 
 In your blade file enter the custom @menu directive, and the @endmenu directive.
-Enter your menu as text list. You can indent if you wish.
+Enter your menu as a text list. You can indent if you wish.
 
 ```
 @menu
